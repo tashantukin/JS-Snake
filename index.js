@@ -31,12 +31,12 @@ function startGame(){
     currentSnake = [2,1,0]
     currentIndex = 0
 
-    currentSnake.forEach(index => squares[index].classList.add('snake')) {
+    currentSnake.forEach(index => squares[index].classList.add('snake')) 
         interval = setInterval(moveOutComes, intervalTime)
         
-    });
+    };
 
-}
+//})
 
 
 function moveOutComes(){
@@ -49,18 +49,44 @@ function moveOutComes(){
 
             (currentSnake[0] + width >= (width * width) && direction === width) || // if the snake hits bottom
             (currentSnake[0] % width === width - 1  && direction === 1) || //snake hits right wall
-            (currentSnake[0] % width === 0  && direction === -1) //snake hits left wall
-            (currentSnake[0] - width < 0  && direction === -width) //hits top
+            (currentSnake[0] % width === 0  && direction === -1)  ||//snake hits left wall
+            (currentSnake[0] - width < 0  && direction === -width) ||  //hits top
             squares[currentSnake[0] + direction].classList.contains('snake')  // snake goes into itself
-
+        )
             {
 
-                return clearInterval(interval)
+                return clearInterval(interval)  // this will clear interval in any above happens
             }
 
 
+            const tail =currentSnake.pop() // removes the last ite of the array
+            squares[tail].classList.remove('snake'); // removes class of snake from the tail
+            currentSnake.unshift(currentSnake[0]+ direction) // gives direction to the head
 
-         )
+            //deals with snake getting the apple
+
+            if(squares[currentSnake[0]].classList.contains('apple')) {
+                squares[currentSnake[0]].classList.remove('apple');
+                squares[tail].classList.add('snake')
+                currentSnake.push(tail)
+                //randomApple();
+                score++;
+                scoreDisplay.textContent = score;
+                clearInterval(interval);
+                intervalTime = intervalTime * speed
+                
+               
+                interval =  setInterval(moveOutComes, intervalTime)
+
+            }
+
+            squares[currentSnake[0]].classList.add('snake');
+
+
+
+
+
+         
 
 }
 
@@ -86,5 +112,8 @@ function moveOutComes(){
 
 
    document.addEventListener('keyup', control)
+
+   startBtn.addEventListener('click', startGame)
+   
 
 })
