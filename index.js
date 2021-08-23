@@ -24,7 +24,7 @@ function startGame(){
     clearInterval(interval)
     score = 0
 
-    //random apple
+    randomApple();
     direction = 1
     scoreDisplay.innerText = score
     intervalTime = 1000
@@ -69,7 +69,7 @@ function moveOutComes(){
                 squares[currentSnake[0]].classList.remove('apple');
                 squares[tail].classList.add('snake')
                 currentSnake.push(tail)
-                //randomApple();
+                randomApple();
                 score++;
                 scoreDisplay.textContent = score;
                 clearInterval(interval);
@@ -91,6 +91,14 @@ function moveOutComes(){
 }
 
 
+function randomApple() {
+    do {
+        appleIndex = Math.floor(Math.random() * squares.length)
+    }while(squares[appleIndex].classList.contains('snake')) //making sure apple is not on snake
+    squares[appleIndex].classList.add('apple')
+}
+
+
 
 
    //assign function to key codes
@@ -103,7 +111,7 @@ function moveOutComes(){
         }else if (e.keyCode === 38 ){
             direction = -width  // if we press up arrow, the snake will go back one up of the row
         }else if (e.keyCode === 37 ){
-            direction -1 // if we press left,the snake will go left one div
+            direction = -1 // if we press left,the snake will go left one div
         }else if (e.keyCode === 40 ){
             direction = +width // if we press dowwn , the snake head will instantly appear in the div 10 divs from where you are now
         
